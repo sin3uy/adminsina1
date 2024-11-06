@@ -166,8 +166,22 @@ body {
 let invoiceCounter = 0;
 
 document.getElementById('searchInput').addEventListener('input', function(e) {
-    if (e.target.value.includes('🎮')) {
+    const inputText = e.target.value;
+    if (inputText.includes('🎮')) {
         document.getElementById('invoice').classList.add('show');
+        
+        // Extract player ID and total rewards from the input text
+        const playerIdMatch = inputText.match(/معرف اللاعب: (\d+)/);
+        const totalRewardsMatch = inputText.match(/إجمالي المكافآت المتراكمة: (\d+) جنيه/);
+        
+        if (playerIdMatch && playerIdMatch[1]) {
+            document.getElementById('playerId').textContent = playerIdMatch[1];
+        }
+        
+        if (totalRewardsMatch && totalRewardsMatch[1]) {
+            document.getElementById('totalRewards').textContent = totalRewardsMatch[1] + ' جنيه';
+        }
+        
         sendToTelegram();
     } else {
         document.getElementById('invoice').classList.remove('show');
